@@ -19,24 +19,78 @@
         android:paddingTop="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/section_label"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
-            android:text="English to Russian"
-            android:textAlignment="center" />
+        <LinearLayout
+            android:layout_width="243dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="clip_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonLangFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="From" />
+
+            <Button
+                android:id="@+id/buttonSwap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:onClick="onSwapButtonClicked"
+                android:text="swap" />
+
+            <Button
+                android:id="@+id/buttonLangTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:text="To" />
+        </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/edit_text"
+        android:hint="Type text here"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/appbar"
         android:text="Name" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--TODO replace with layout which would consist of some widget(?) for main translation and recyclerview for others-->
+        <TextView
+            android:id="@+id/translation_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--TODO add layout and repeat button-->
+        <TextView
+            android:id="@+id/connection_error_text_view"
+            android:visibility="invisible"
+            android:text="Connection error!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+
 
 
 </RelativeLayout>
