@@ -69,7 +69,6 @@ public class RequesterTest {
         }
         assertEquals(response1.isSuccessful(), false);
         assertEquals(response1.code(), 400);
-        assertNotEquals(response1.body(), null);
     }
 
     private CountDownLatch lock = new CountDownLatch(1);
