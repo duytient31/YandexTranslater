@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import avsimonenko.yandextranslater.R;
 import avsimonenko.yandextranslater.dao.LanguagesDao;
+import avsimonenko.yandextranslater.models.LanguageModel;
 import avsimonenko.yandextranslater.view.adapters.LanguagesListAdapter;
 
 /**
@@ -16,6 +19,8 @@ import avsimonenko.yandextranslater.view.adapters.LanguagesListAdapter;
  */
 
 public class LanguageChoiceActivity extends AppCompatActivity {
+
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +43,34 @@ public class LanguageChoiceActivity extends AppCompatActivity {
             curLangCode = intent.getStringExtra(TranslateFragment.ARG_CUR_LANG_CODE);
         }
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.languages_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.languages_recycler_view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
 
         LanguagesListAdapter languagesListAdapter = new LanguagesListAdapter(
                 LanguagesDao.getLanguagesDao().getAllLanguages(),
-                curLangCode);
-        recyclerView.setAdapter(languagesListAdapter);
+                curLangCode,
+                new ItemSelectCallback());
+        mRecyclerView.setAdapter(languagesListAdapter);
+
+    }
+
+    public class ItemSelectCallback {
+
+        public final View.OnClickListener onItemSelected() {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int itemPosition = mRecyclerView.getChildAdapterPosition(v);
+                    LanguageModel languageModelSelected =
+                            LanguagesDao.getLanguagesDao().getAllLanguages().get(itemPosition);
+                    Log.d(ItemSelectCallback.class.getSimpleName(),languageModelSelected.getName());
+                    finish();
+                }
+            };
+        }
 
     }
 }
