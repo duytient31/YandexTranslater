@@ -37,14 +37,13 @@
                 android:text="From" />
 
             <Button
-                android:id="@+id/buttonSwap"
+                android:id="@+id/button_swap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:onClick="onSwapButtonClicked"
                 android:text="swap" />
 
             <Button

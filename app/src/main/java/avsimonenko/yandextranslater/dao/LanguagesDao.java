@@ -53,6 +53,15 @@ public class LanguagesDao {
         return languagesDao;
     }
 
+    public LanguageModel getLanguageByCode(String code) {
+        for (LanguageModel langModel :
+                allLanguages) {
+            if (langModel.getCode().equals(code))
+                return langModel;
+        }
+        return null;
+    }
+
     public List<LanguageModel> getAllLanguages() {
         return allLanguages;
     }

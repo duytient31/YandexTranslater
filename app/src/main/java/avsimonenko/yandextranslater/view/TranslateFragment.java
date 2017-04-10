@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,15 +23,12 @@ import avsimonenko.yandextranslater.models.LanguageModel;
 public class TranslateFragment extends Fragment {
 
     protected static final String ARG_SECTION_NUMBER = "section_number";
-    protected static final String ARG_CUR_LANG_CODE = "CUR_CODE";
 
     private static LanguageModel curLanguageFrom = new LanguageModel("ru", "Russian"); //TODO translate
     private static LanguageModel curLanguageTo = new LanguageModel("en", "English");
 
     Button mLangFromButton;
     Button mLangToButton;
-    LangButtonCallback mLangFromCallback;
-    LangButtonCallback mLangToCallback;
 
     EditText mEditText;
     TextView mTranslatedTextView;
@@ -50,39 +48,53 @@ public class TranslateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        System.out.print("onCreateView");
+        Log.d(TranslateFragment.class.getSimpleName(), "onCreateView");
         View view = inflater.inflate(R.layout.translate_fragment, container, false);
 
         mLangFromButton = (Button) view.findViewById(R.id.buttonLangFrom);
         mLangFromButton.setText(curLanguageFrom.getName());
-        mLangFromCallback = new LangButtonCallback(mLangFromButton);
         mLangFromButton.setOnClickListener(onChooseLanguageButtonClicked());
 
         mLangToButton = (Button) view.findViewById(R.id.buttonLangTo);
         mLangToButton.setText(curLanguageTo.getName());
-        mLangToCallback = new LangButtonCallback(mLangToButton);
         mLangToButton.setOnClickListener(onChooseLanguageButtonClicked());
 
         mEditText = (EditText) view.findViewById(R.id.edit_text);
         mTranslatedTextView = (TextView) view.findViewById(R.id.translation_text_view);
         mErrorMessageTextView = (TextView) view.findViewById(R.id.connection_error_text_view);
 
+        Button mSwapButton = (Button) view.findViewById(R.id.button_swap);
+        mSwapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSwapButtonClicked(v);
+            }
+        });
+
         return view;
     }
 
-    public void onLangFromChanged(LanguageModel langFrom) {
-        mLangFromButton.setText(langFrom.getName());
-    }
-
-    public void onLangToChanged(LanguageModel langTo) {
-        mLangToButton.setText(langTo.getName());
+    public void changeLang(boolean isFromLang, String langCode) {
+        LanguageModel languageModel = LanguagesDao.getLanguagesDao().getLanguageByCode(langCode);
+        if (languageModel == null)
+            return;
+        if (isFromLang) {
+            mLangFromButton.setText(languageModel.getName());
+            curLanguageFrom = languageModel;
+        } else {
+            mLangToButton.setText(languageModel.getName());
+            curLanguageTo = languageModel;
+        }
     }
 
     public void onSwapButtonClicked(View view) {
         String textTo = mLangToButton.getText().toString();
         mLangToButton.setText(mLangFromButton.getText());
         mLangFromButton.setText(textTo);
+
+        LanguageModel languageModelTmp = curLanguageFrom;
+        curLanguageFrom = curLanguageTo;
+        curLanguageTo = languageModelTmp;
     }
 
     private void showTranslation() {
@@ -104,29 +116,11 @@ public class TranslateFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Button thisButton = (Button) v;
-
-                Context context = TranslateFragment.this.getContext();
-                Class languagesChoiceActivity = LanguageChoiceActivity.class;
-                Intent startLangChoiceActivityIntent = new Intent(context, languagesChoiceActivity);
-                boolean isFromDirection = (thisButton == mLangFromButton);
-                startLangChoiceActivityIntent.putExtra(Intent.EXTRA_TEXT, isFromDirection);
-                startLangChoiceActivityIntent.putExtra(ARG_CUR_LANG_CODE,
-                        (isFromDirection ? curLanguageFrom.getCode() : curLanguageTo.getCode()));
-                startActivity(startLangChoiceActivityIntent);
+                boolean isFromDirection = (thisButton.getId() == mLangFromButton.getId());
+                String langCode = (isFromDirection ? curLanguageFrom.getCode() : curLanguageTo.getCode());
+                ((MainActivity)getActivity()).startLanguagesListActivity(isFromDirection, langCode);
             }
         };
-    }
-
-    public class LangButtonCallback {
-        Button button;
-
-        public LangButtonCallback(Button button) {
-            this.button = button;
-        }
-
-        public void onChangeLang(LanguageModel languageModel) {
-            button.setText(languageModel.getName());
-        }
     }
 
 }

@@ -22,6 +22,8 @@ public class LanguageChoiceActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
 
+    private boolean mIsFromLang;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +31,18 @@ public class LanguageChoiceActivity extends AppCompatActivity {
 
         String curLangCode = null;
         Intent intent = getIntent();
-        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-            boolean extraValue = intent.getBooleanExtra(Intent.EXTRA_TEXT, false);
+        if (intent.hasExtra(MainActivity.ARG_IS_FROM_LANG_CODE)) {
+            mIsFromLang = intent.getBooleanExtra(MainActivity.ARG_IS_FROM_LANG_CODE, false);
             TextView langTypeTextView = (TextView) findViewById(R.id.language_type_text_view);
-            if (extraValue)
+            if (mIsFromLang)
                 langTypeTextView.setText("Source language");
             else
                 langTypeTextView.setText("Target language");
 
         }
 
-        if (intent.hasExtra(TranslateFragment.ARG_CUR_LANG_CODE)) {
-            curLangCode = intent.getStringExtra(TranslateFragment.ARG_CUR_LANG_CODE);
+        if (intent.hasExtra(MainActivity.ARG_CUR_LANG_CODE)) {
+            curLangCode = intent.getStringExtra(MainActivity.ARG_CUR_LANG_CODE);
         }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.languages_recycler_view);
@@ -66,7 +68,10 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                     int itemPosition = mRecyclerView.getChildAdapterPosition(v);
                     LanguageModel languageModelSelected =
                             LanguagesDao.getLanguagesDao().getAllLanguages().get(itemPosition);
-                    Log.d(ItemSelectCallback.class.getSimpleName(),languageModelSelected.getName());
+                    Intent resultData = new Intent();
+                    resultData.putExtra(MainActivity.ARG_CUR_LANG_CODE, languageModelSelected.getCode());
+                    resultData.putExtra(MainActivity.ARG_IS_FROM_LANG_CODE, mIsFromLang);
+                    setResult(MainActivity.ARG_LANG_CHOICE_RESULT_CODE, resultData);
                     finish();
                 }
             };
