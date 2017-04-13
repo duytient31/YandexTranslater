@@ -15,7 +15,7 @@
         android:layout_gravity="bottom" />
 
     <avsimonenko.yandextranslater.view.NonSwipeableViewPager
-        android:id="@+id/container"
+        android:id="@+id/non_swipable_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

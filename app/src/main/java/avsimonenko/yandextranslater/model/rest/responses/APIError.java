@@ -1,4 +1,4 @@
-package avsimonenko.yandextranslater.rest.responses;
+package avsimonenko.yandextranslater.model.rest.responses;
 
 /**
  * Created by avsimonenko on 09.04.17.

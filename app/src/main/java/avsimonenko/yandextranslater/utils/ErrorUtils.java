@@ -3,8 +3,8 @@ package avsimonenko.yandextranslater.utils;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
-import avsimonenko.yandextranslater.rest.Requester;
-import avsimonenko.yandextranslater.rest.responses.APIError;
+import avsimonenko.yandextranslater.model.rest.Requester;
+import avsimonenko.yandextranslater.model.rest.responses.APIError;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Response;

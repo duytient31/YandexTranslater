@@ -1,14 +1,14 @@
-package avsimonenko.yandextranslater.models;
+package avsimonenko.yandextranslater.model.models;
 
 /**
  * Created by avsimonenko on 09.04.17.
  */
 
-public class LanguageModel {
+public class Language {
     private String code;
     private String name;
 
-    public LanguageModel(String code, String name) {
+    public Language(String code, String name) {
         this.code = code;
         this.name = name;
     }

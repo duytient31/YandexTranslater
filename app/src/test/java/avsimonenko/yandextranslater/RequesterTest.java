@@ -1,7 +1,5 @@
 package avsimonenko.yandextranslater;
 
-import android.util.Log;
-
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,10 +8,10 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import avsimonenko.yandextranslater.rest.Requester;
-import avsimonenko.yandextranslater.rest.responses.APIError;
-import avsimonenko.yandextranslater.rest.responses.LanguagesResponse;
-import avsimonenko.yandextranslater.rest.responses.TranslateResponse;
+import avsimonenko.yandextranslater.model.rest.Requester;
+import avsimonenko.yandextranslater.model.rest.responses.APIError;
+import avsimonenko.yandextranslater.model.rest.responses.LanguagesResponse;
+import avsimonenko.yandextranslater.model.rest.responses.TranslateResponse;
 import avsimonenko.yandextranslater.utils.ErrorUtils;
 import retrofit2.Call;
 import retrofit2.Callback;

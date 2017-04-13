@@ -1,7 +1,9 @@
 package avsimonenko.yandextranslater.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import avsimonenko.yandextranslater.R;
 
@@ -24,16 +27,21 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    private ViewPager mViewPager;
+    private ViewPager mViewPager = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        Log.d(MainActivity.class.getSimpleName(), "onCreate");
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mSectionsPagerAdapter = (SectionsPagerAdapter) getLastCustomNonConfigurationInstance();
+        if (mSectionsPagerAdapter == null)
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter.link(this);
+
+        mViewPager = (ViewPager) findViewById(R.id.non_swipable_view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -81,14 +89,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        mSectionsPagerAdapter.unlink();
+        return mSectionsPagerAdapter;
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    }
+
+    static public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        private static TranslateFragment mTranslateFragment = null;
+        private static AppCompatActivity activity;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-        }
 
-        private TranslateFragment mTranslateFragment = null;
+            Log.d(SectionsPagerAdapter.class.getSimpleName(), "CONSTRUCTOR");
+        }
 
         public TranslateFragment getTranslateFragment() {
             return mTranslateFragment;
@@ -118,6 +135,23 @@ public class MainActivity extends AppCompatActivity {
                     return "HISTORY";
             }
             return null;
+        }
+
+        @Override
+        public void finishUpdate(ViewGroup container) {
+            try{
+                super.finishUpdate(container);
+            } catch (NullPointerException nullPointerException){
+                System.out.println("Catch the NullPointerException in FragmentPagerAdapter.finishUpdate");
+            }
+        }
+
+        public void link(AppCompatActivity activity) {
+            this.activity = activity;
+        }
+
+        public void unlink() {
+            activity = null;
         }
     }
 }

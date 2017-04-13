@@ -1,4 +1,4 @@
-package avsimonenko.yandextranslater.rest.responses;
+package avsimonenko.yandextranslater.model.rest.responses;
 
 import com.google.gson.annotations.SerializedName;
 

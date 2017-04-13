@@ -1,4 +1,4 @@
-package avsimonenko.yandextranslater.dao;
+package avsimonenko.yandextranslater.model.dao;
 
 import android.util.Log;
 
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import avsimonenko.yandextranslater.models.LanguageModel;
-import avsimonenko.yandextranslater.rest.Requester;
-import avsimonenko.yandextranslater.rest.responses.LanguagesResponse;
+import avsimonenko.yandextranslater.model.models.Language;
+import avsimonenko.yandextranslater.model.rest.Requester;
+import avsimonenko.yandextranslater.model.rest.responses.LanguagesResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,7 +19,7 @@ import retrofit2.Response;
 
 public class LanguagesDao {
 
-    private List<LanguageModel> allLanguages = new ArrayList<>();
+    private List<Language> allLanguages = new ArrayList<>();
 
     private static LanguagesDao languagesDao = null;
 
@@ -32,7 +32,7 @@ public class LanguagesDao {
                     LanguagesResponse languagesResponse = response.body();
                     Map<String, String> responseLangs = languagesResponse.getLangs();
                     for (String key : responseLangs.keySet()) {
-                        allLanguages.add(new LanguageModel(key, responseLangs.get(key)));
+                        allLanguages.add(new Language(key, responseLangs.get(key)));
                     }
 
                 } else {
@@ -53,8 +53,8 @@ public class LanguagesDao {
         return languagesDao;
     }
 
-    public LanguageModel getLanguageByCode(String code) {
-        for (LanguageModel langModel :
+    public Language getLanguageByCode(String code) {
+        for (Language langModel :
                 allLanguages) {
             if (langModel.getCode().equals(code))
                 return langModel;
@@ -62,7 +62,7 @@ public class LanguagesDao {
         return null;
     }
 
-    public List<LanguageModel> getAllLanguages() {
+    public List<Language> getAllLanguages() {
         return allLanguages;
     }
 }

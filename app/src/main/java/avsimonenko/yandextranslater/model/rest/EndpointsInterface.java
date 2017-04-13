@@ -1,7 +1,7 @@
-package avsimonenko.yandextranslater.rest;
+package avsimonenko.yandextranslater.model.rest;
 
-import avsimonenko.yandextranslater.rest.responses.LanguagesResponse;
-import avsimonenko.yandextranslater.rest.responses.TranslateResponse;
+import avsimonenko.yandextranslater.model.rest.responses.LanguagesResponse;
+import avsimonenko.yandextranslater.model.rest.responses.TranslateResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

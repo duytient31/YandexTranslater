@@ -10,7 +10,7 @@
     android:paddingTop="0dp"
     android:textAlignment="center"
     app:layout_anchorGravity="center_vertical"
-    tools:context="avsimonenko.yandextranslater.view.TranslateFragment">
+    tools:context="avsimonenko.yandextranslater.view.TranslateFragmentNew">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

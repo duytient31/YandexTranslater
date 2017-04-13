@@ -3,6 +3,7 @@ package avsimonenko.yandextranslater.view;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
@@ -16,6 +17,7 @@ import java.lang.reflect.Field;
 public class NonSwipeableViewPager extends ViewPager {
     public NonSwipeableViewPager(Context context) {
         super(context);
+        Log.d(NonSwipeableViewPager.class.getSimpleName(), "CONSTRUCTOR");
         setMyScroller();
     }
 
@@ -36,8 +38,6 @@ public class NonSwipeableViewPager extends ViewPager {
         return false;
     }
 
-    //down one is added for smooth scrolling
-
     private void setMyScroller() {
         try {
             Class<?> viewpager = ViewPager.class;
@@ -56,7 +56,7 @@ public class NonSwipeableViewPager extends ViewPager {
 
         @Override
         public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-            super.startScroll(startX, startY, dx, dy, 350 /*1 secs*/);
+            super.startScroll(startX, startY, dx, dy, 350);
         }
     }
 }

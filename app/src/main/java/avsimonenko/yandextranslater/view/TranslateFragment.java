@@ -1,7 +1,5 @@
 package avsimonenko.yandextranslater.view;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import avsimonenko.yandextranslater.R;
-import avsimonenko.yandextranslater.dao.LanguagesDao;
-import avsimonenko.yandextranslater.models.LanguageModel;
+import avsimonenko.yandextranslater.model.dao.LanguagesDao;
+import avsimonenko.yandextranslater.model.models.Language;
 
 /**
  * Created by avsimonenko on 05.04.17.
@@ -24,8 +22,8 @@ public class TranslateFragment extends Fragment {
 
     protected static final String ARG_SECTION_NUMBER = "section_number";
 
-    private static LanguageModel curLanguageFrom = new LanguageModel("ru", "Russian"); //TODO translate
-    private static LanguageModel curLanguageTo = new LanguageModel("en", "English");
+    private static Language curLanguageFrom = new Language("ru", "Russian"); //TODO translate
+    private static Language curLanguageTo = new Language("en", "English");
 
     Button mLangFromButton;
     Button mLangToButton;
@@ -49,7 +47,7 @@ public class TranslateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TranslateFragment.class.getSimpleName(), "onCreateView");
-        View view = inflater.inflate(R.layout.translate_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_translate, container, false);
 
         mLangFromButton = (Button) view.findViewById(R.id.buttonLangFrom);
         mLangFromButton.setText(curLanguageFrom.getName());
@@ -75,15 +73,15 @@ public class TranslateFragment extends Fragment {
     }
 
     public void changeLang(boolean isFromLang, String langCode) {
-        LanguageModel languageModel = LanguagesDao.getLanguagesDao().getLanguageByCode(langCode);
-        if (languageModel == null)
+        Language language = LanguagesDao.getLanguagesDao().getLanguageByCode(langCode);
+        if (language == null)
             return;
         if (isFromLang) {
-            mLangFromButton.setText(languageModel.getName());
-            curLanguageFrom = languageModel;
+            mLangFromButton.setText(language.getName());
+            curLanguageFrom = language;
         } else {
-            mLangToButton.setText(languageModel.getName());
-            curLanguageTo = languageModel;
+            mLangToButton.setText(language.getName());
+            curLanguageTo = language;
         }
     }
 
@@ -92,9 +90,9 @@ public class TranslateFragment extends Fragment {
         mLangToButton.setText(mLangFromButton.getText());
         mLangFromButton.setText(textTo);
 
-        LanguageModel languageModelTmp = curLanguageFrom;
+        Language languageTmp = curLanguageFrom;
         curLanguageFrom = curLanguageTo;
-        curLanguageTo = languageModelTmp;
+        curLanguageTo = languageTmp;
     }
 
     private void showTranslation() {

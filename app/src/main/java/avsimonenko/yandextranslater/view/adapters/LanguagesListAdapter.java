@@ -1,25 +1,19 @@
 package avsimonenko.yandextranslater.view.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import avsimonenko.yandextranslater.models.LanguageModel;
+import avsimonenko.yandextranslater.model.models.Language;
 
 import java.util.List;
 
 import avsimonenko.yandextranslater.R;
-import avsimonenko.yandextranslater.dao.LanguagesDao;
 import avsimonenko.yandextranslater.view.LanguageChoiceActivity;
-import avsimonenko.yandextranslater.view.TranslateFragment;
 
 /**
  * Created by avsimonenko on 09.04.17.
@@ -27,11 +21,11 @@ import avsimonenko.yandextranslater.view.TranslateFragment;
 
 public class LanguagesListAdapter extends RecyclerView.Adapter<LanguagesListAdapter.LanguageItemsViewHolder> {
 
-    private List<LanguageModel> allLanguages;
+    private List<Language> allLanguages;
     private String curLanguageCode;
     private LanguageChoiceActivity.ItemSelectCallback itemSelectCallback;
 
-    public LanguagesListAdapter(List<LanguageModel> allLanguages, String curLanguage,
+    public LanguagesListAdapter(List<Language> allLanguages, String curLanguage,
                                 LanguageChoiceActivity.ItemSelectCallback itemSelectCallback) {
         this.allLanguages = allLanguages;
         this.curLanguageCode = curLanguage;
@@ -53,7 +47,7 @@ public class LanguagesListAdapter extends RecyclerView.Adapter<LanguagesListAdap
 
     @Override
     public void onBindViewHolder(LanguageItemsViewHolder holder, int position) {
-        LanguageModel langAtPos = allLanguages.get(position);
+        Language langAtPos = allLanguages.get(position);
         holder.bind(langAtPos.getName(), (langAtPos.getCode().equals(curLanguageCode)));
     }
 

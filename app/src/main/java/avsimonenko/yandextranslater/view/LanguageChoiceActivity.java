@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import avsimonenko.yandextranslater.R;
-import avsimonenko.yandextranslater.dao.LanguagesDao;
-import avsimonenko.yandextranslater.models.LanguageModel;
+import avsimonenko.yandextranslater.model.dao.LanguagesDao;
+import avsimonenko.yandextranslater.model.models.Language;
 import avsimonenko.yandextranslater.view.adapters.LanguagesListAdapter;
 
 /**
@@ -66,10 +65,10 @@ public class LanguageChoiceActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     int itemPosition = mRecyclerView.getChildAdapterPosition(v);
-                    LanguageModel languageModelSelected =
+                    Language languageSelected =
                             LanguagesDao.getLanguagesDao().getAllLanguages().get(itemPosition);
                     Intent resultData = new Intent();
-                    resultData.putExtra(MainActivity.ARG_CUR_LANG_CODE, languageModelSelected.getCode());
+                    resultData.putExtra(MainActivity.ARG_CUR_LANG_CODE, languageSelected.getCode());
                     resultData.putExtra(MainActivity.ARG_IS_FROM_LANG_CODE, mIsFromLang);
                     setResult(MainActivity.ARG_LANG_CHOICE_RESULT_CODE, resultData);
                     finish();
